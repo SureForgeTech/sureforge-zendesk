@@ -1906,7 +1906,10 @@ test("reports a browser that could not be opened on its own line", async () => {
   );
 
   assert.equal(commands.length, 1);
-  assert.ok(commands[0].args.includes(url));
+  assert.deepEqual(
+    commands[0].args,
+    process.platform === "win32" ? ["/c", "start", "", url] : [url],
+  );
   // The parent walks away from the browser it started.
   assert.equal(unrefed, true);
 
